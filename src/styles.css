@@ -1,0 +1,85 @@
+body {
+  padding: 20px;
+  height: 100vh;
+}
+
+.addContactForm {
+  margin-bottom: 20px;
+
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  border: 1px solid grey;
+}
+
+.contactsListItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+
+  border: 1px solid grey;
+  padding: 10px;
+}
+
+.loginRegisterForm {
+  width: 50%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  border: 1px solid grey;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1200;
+}
+
+.modal {
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 24px);
+  background-color: #fff;
+  width: 40%;
+  height: auto;
+
+  padding: 20px;
+}
+
+.editContactInput {
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.editContactForm {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.editContactbtnWrapper {
+  margin-bottom: 10px;
+}
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
