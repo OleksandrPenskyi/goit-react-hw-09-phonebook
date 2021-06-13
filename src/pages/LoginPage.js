@@ -1,73 +1,77 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Box, TextField, Button } from '@material-ui/core';
 
 import { authOperations } from '../redux/auth';
 
-const initialState = { email: '', password: '' };
+export default function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
 
-class LoginPage extends Component {
-  static propTypes = {
-    onLogin: PropTypes.func.isRequired,
-  };
-
-  state = initialState;
-
-  onChangeInput = event => {
+  const onChangeInput = event => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+
+    switch (name) {
+      case 'email':
+        setEmail(value);
+        break;
+
+      case 'password':
+        setPassword(value);
+        break;
+
+      default:
+        break;
+    }
   };
 
-  onSubmitLoginForm = event => {
+  const onSubmitLoginForm = event => {
     event.preventDefault();
-
-    this.props.onLogin(this.state);
-
-    this.setState({ ...initialState });
+    // Оператор для логина
+    if (email !== '' && password !== '') {
+      dispatch(authOperations.login({ email, password }));
+      clearForm();
+    }
   };
 
-  render() {
-    const { email, password } = this.state;
+  const clearForm = () => {
+    setEmail('');
+    setPassword('');
+  };
 
-    return (
-      <Box component="section">
-        <Box component="h2" textAlign="center">
-          Please, fill the form to login:
-        </Box>
-        <form
-          onSubmit={this.onSubmitLoginForm}
-          className="loginRegisterForm"
-          autoComplete="off"
-        >
-          <TextField
-            onChange={this.onChangeInput}
-            label="E-mail"
-            margin="normal"
-            name="email"
-            type="email"
-            value={email}
-          />
-
-          <TextField
-            onChange={this.onChangeInput}
-            label="Password"
-            margin="normal"
-            name="password"
-            type="password"
-            value={password}
-          />
-          <Button type="submit" variant="contained">
-            Login
-          </Button>
-        </form>
+  return (
+    <Box component="section">
+      <Box component="h2" textAlign="center">
+        Please, fill the form to login:
       </Box>
-    );
-  }
+      <form
+        onSubmit={onSubmitLoginForm}
+        className="loginRegisterForm"
+        // ! autoComplete="off"
+      >
+        <TextField
+          onChange={onChangeInput}
+          label="E-mail"
+          margin="normal"
+          name="email"
+          type="email"
+          value={email}
+        />
+
+        <TextField
+          onChange={onChangeInput}
+          label="Password"
+          margin="normal"
+          name="password"
+          // ! type="password"
+          type="text"
+          value={password}
+        />
+        <Button type="submit" variant="contained">
+          Login
+        </Button>
+      </form>
+    </Box>
+  );
 }
-
-const mapDispatchToProps = {
-  onLogin: authOperations.login,
-};
-
-export default connect(null, mapDispatchToProps)(LoginPage);

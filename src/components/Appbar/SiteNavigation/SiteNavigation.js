@@ -1,16 +1,16 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { authSelectors } from '../../../redux/auth';
+
 import { Box, Button } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
-import PropTypes from 'prop-types';
 import RecentActorsIcon from '@material-ui/icons/RecentActors';
-
 import { SiteNavigationStyles } from './styles';
 
-const SiteNavigation = ({ isUserLogin }) => {
+export default function SiteNavigation() {
   const classes = SiteNavigationStyles();
+  const isUserLogin = useSelector(authSelectors.isLogin);
 
   return (
     <Box>
@@ -40,14 +40,4 @@ const SiteNavigation = ({ isUserLogin }) => {
       )}
     </Box>
   );
-};
-
-const mapStateToProps = state => ({
-  isUserLogin: authSelectors.isLogin(state),
-});
-
-export default connect(mapStateToProps)(SiteNavigation);
-
-SiteNavigation.propTypes = {
-  isUserLogin: PropTypes.bool.isRequired,
-};
+}

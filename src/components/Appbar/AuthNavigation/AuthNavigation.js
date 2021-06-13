@@ -4,7 +4,7 @@ import { Box, Button } from '@material-ui/core';
 
 import { AuthNavigationStyles } from './styles';
 
-const AuthNavigation = () => {
+export default function AuthNavigation() {
   const classes = AuthNavigationStyles();
 
   return (
@@ -31,6 +31,4 @@ const AuthNavigation = () => {
       </Button>
     </Box>
   );
-};
-
-export default AuthNavigation;
+}

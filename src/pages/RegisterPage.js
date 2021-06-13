@@ -1,85 +1,91 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { Box, TextField, Button } from '@material-ui/core';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { authOperations } from '../redux/auth';
 
-const initialState = {
-  name: '',
-  email: '',
-  password: '',
-};
+export default function RegisterPage() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-class RegisterPage extends Component {
-  static propTypes = {
-    onRegistration: PropTypes.func.isRequired,
-  };
+  const dispatch = useDispatch();
 
-  state = initialState;
-
-  onChangeInput = event => {
+  const onChangeInput = event => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+
+      case 'email':
+        setEmail(value);
+        break;
+
+      case 'password':
+        setPassword(value);
+        break;
+
+      default:
+        break;
+    }
   };
 
-  onSubmitRegForm = event => {
+  const onSubmitRegForm = event => {
     event.preventDefault();
-
-    this.props.onRegistration(this.state);
-
-    this.setState({ ...initialState });
+    if (email !== '' && password !== '' && password !== '') {
+      dispatch(authOperations.registration({ name, email, password }));
+      clearForm();
+    }
   };
 
-  render() {
-    const { name, email, password } = this.state;
-    return (
-      <Box component="section" onSubmit={this.onSubmitRegForm}>
-        <Box component="h2" textAlign="center">
-          Please, fill the form to registration:
-        </Box>
+  const clearForm = () => {
+    setEmail('');
+    setPassword('');
+    setPassword('');
+  };
 
-        <Box className="editContactWrapper">
-          <form
-            onSubmit={this.onSubmitRegForm}
-            className="loginRegisterForm"
-            autoComplete="off"
-          >
-            <TextField
-              onChange={this.onChangeInput}
-              label="Name"
-              margin="normal"
-              name="name"
-              value={name}
-              type="text"
-            />
-            <TextField
-              onChange={this.onChangeInput}
-              label="E-mail"
-              margin="normal"
-              name="email"
-              value={email}
-              type="email"
-            />
-            <TextField
-              onChange={this.onChangeInput}
-              label="Password"
-              margin="normal"
-              name="password"
-              value={password}
-              type="password"
-            />
-            <Button type="submit" variant="contained">
-              Registration
-            </Button>
-          </form>
-        </Box>
+  return (
+    <Box component="section">
+      <Box component="h2" textAlign="center">
+        Please, fill the form to registration:
       </Box>
-    );
-  }
+
+      <Box className="editContactWrapper">
+        <form
+          onSubmit={onSubmitRegForm}
+          className="loginRegisterForm"
+          autoComplete="off"
+        >
+          <TextField
+            onChange={onChangeInput}
+            label="Name"
+            margin="normal"
+            name="name"
+            value={name}
+            type="text"
+          />
+          <TextField
+            onChange={onChangeInput}
+            label="E-mail"
+            margin="normal"
+            name="email"
+            value={email}
+            type="email"
+          />
+          <TextField
+            onChange={onChangeInput}
+            label="Password"
+            margin="normal"
+            name="password"
+            value={password}
+            type="password"
+          />
+          <Button type="submit" variant="contained">
+            Registration
+          </Button>
+        </form>
+      </Box>
+    </Box>
+  );
 }
-
-const mapDispatchToProps = {
-  onRegistration: authOperations.registration,
-};
-
-export default connect(null, mapDispatchToProps)(RegisterPage);

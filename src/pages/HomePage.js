@@ -3,7 +3,7 @@ import { Box, Typography, Link } from '@material-ui/core';
 import { HomePageStyles } from './pagesStyles/pageStyles';
 import GitHubIcon from '@material-ui/icons/GitHub';
 
-const HomePage = () => {
+export default function HomePage() {
   const classes = HomePageStyles();
 
   return (
@@ -22,6 +22,4 @@ const HomePage = () => {
       </Link>
     </Box>
   );
-};
-
-export default HomePage;
+}

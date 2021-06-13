@@ -1,13 +1,23 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { authOperations } from '../../../redux/auth';
 import { authSelectors } from '../../../redux/auth';
 import { Box, Typography, Button } from '@material-ui/core';
-import PropTypes from 'prop-types';
 import { UserMenuStyles } from './styles';
 
-const UserMenu = ({ email, onLogout }) => {
+// const mapDispatchToProps = {
+//   onLogout: authOperations.logout,
+// };
+
+export default function UserMenu() {
   const classes = UserMenuStyles();
+
+  const email = useSelector(authSelectors.getUserEmail);
+  const dispatch = useDispatch();
+
+  const onLogout = useCallback(() => {
+    dispatch(authOperations.logout());
+  }, [dispatch]);
 
   return (
     <Box component="section" className={classes.section}>
@@ -25,19 +35,4 @@ const UserMenu = ({ email, onLogout }) => {
       </Button>
     </Box>
   );
-};
-
-const mapStateToProps = state => ({
-  email: authSelectors.getUserEmail(state),
-});
-
-const mapDispatchToProps = {
-  onLogout: authOperations.logout,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserMenu);
-
-UserMenu.propTypes = {
-  email: PropTypes.string.isRequired,
-  onLogout: PropTypes.func.isRequired,
-};
+}
