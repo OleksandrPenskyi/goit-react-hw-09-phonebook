@@ -66,6 +66,7 @@ export default function LoginPage() {
           name="password"
           type="password"
           value={password}
+          autoComplete="on"
         />
         <Button type="submit" variant="contained">
           Login

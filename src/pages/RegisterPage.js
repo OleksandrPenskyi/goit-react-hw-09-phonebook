@@ -80,6 +80,7 @@ export default function RegisterPage() {
             name="password"
             value={password}
             type="password"
+            autoComplete="on"
           />
           <Button type="submit" variant="contained">
             Registration

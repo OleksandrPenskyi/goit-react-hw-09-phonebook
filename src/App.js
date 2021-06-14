@@ -6,6 +6,13 @@ import AppBar from './components/Appbar';
 import PublicRoute from './components/PublicRoute';
 import PrivateRoute from './components/PrivateRoute';
 import Loader from './components/Loader';
+import {
+  homeLink,
+  registerLink,
+  loginLink,
+  contactsLink,
+  undefinedPageLink,
+} from './routes';
 
 const HomePage = lazy(() =>
   import('./pages/HomePage' /* webpackChunkName: "homePage" */),
@@ -33,21 +40,25 @@ export default function App() {
 
       <Suspense fallback={<Loader />}>
         <Switch>
-          <PublicRoute exact path="/">
+          <PublicRoute exact path={homeLink}>
             <HomePage />
           </PublicRoute>
 
-          <PublicRoute path="/register" restricted redirectTo="/contacts">
+          <PublicRoute path={registerLink} restricted redirectTo={contactsLink}>
             <RegisterPage />
           </PublicRoute>
 
-          <PublicRoute path="/login" restricted redirectTo="/contacts">
+          <PublicRoute path={loginLink} restricted redirectTo={contactsLink}>
             <LoginPage />
           </PublicRoute>
 
-          <PrivateRoute path="/contacts" redirectTo="/login">
+          <PrivateRoute path={contactsLink} redirectTo={loginLink}>
             <ContactsPage />
           </PrivateRoute>
+
+          <PublicRoute path={undefinedPageLink}>
+            <HomePage />
+          </PublicRoute>
         </Switch>
       </Suspense>
     </>
