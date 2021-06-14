@@ -1,7 +1,7 @@
-import React, { Component, Suspense, lazy } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { authOperations, authSelectors } from './redux/auth';
+import { useDispatch } from 'react-redux';
+import { authOperations } from './redux/auth';
 import AppBar from './components/Appbar';
 import PublicRoute from './components/PublicRoute';
 import PrivateRoute from './components/PrivateRoute';
@@ -20,49 +20,36 @@ const ContactsPage = lazy(() =>
   import('./pages/ContactsPage' /* webpackChunkName: "ContactsPage" */),
 );
 
-class App extends Component {
-  componentDidMount() {
-    this.props.getUser();
-  }
+export default function App() {
+  const dispatch = useDispatch();
 
-  render() {
-    return (
-      <>
-        <AppBar />
+  useEffect(() => {
+    dispatch(authOperations.refreshUser());
+  }, [dispatch]);
 
-        <Suspense fallback={<Loader />}>
-          <Switch>
-            <PublicRoute exact path="/" component={HomePage} />
-            <PublicRoute
-              path="/register"
-              component={RegisterPage}
-              restricted
-              redirectTo="/contacts"
-            />
-            <PublicRoute
-              path="/login"
-              component={LoginPage}
-              restricted
-              redirectTo="/contacts"
-            />
-            <PrivateRoute
-              path="/contacts"
-              component={ContactsPage}
-              redirectTo="/login"
-            />
-          </Switch>
-        </Suspense>
-      </>
-    );
-  }
+  return (
+    <>
+      <AppBar />
+
+      <Suspense fallback={<Loader />}>
+        <Switch>
+          <PublicRoute exact path="/">
+            <HomePage />
+          </PublicRoute>
+
+          <PublicRoute path="/register" restricted redirectTo="/contacts">
+            <RegisterPage />
+          </PublicRoute>
+
+          <PublicRoute path="/login" restricted redirectTo="/contacts">
+            <LoginPage />
+          </PublicRoute>
+
+          <PrivateRoute path="/contacts" redirectTo="/login">
+            <ContactsPage />
+          </PrivateRoute>
+        </Switch>
+      </Suspense>
+    </>
+  );
 }
-
-const mapStateToProps = state => ({
-  isUserLogin: authSelectors.isLogin(state),
-});
-
-const mapDispatchToProps = {
-  getUser: authOperations.refreshUser,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);

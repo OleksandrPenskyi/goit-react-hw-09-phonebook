@@ -3,7 +3,7 @@ import React from 'react';
 
 import { ErrorStyles } from './styles';
 
-const Error = () => {
+export default function Error() {
   const classes = ErrorStyles();
 
   return (
@@ -13,6 +13,4 @@ const Error = () => {
       </Typography>
     </Box>
   );
-};
-
-export default Error;
+}

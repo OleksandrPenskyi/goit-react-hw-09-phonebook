@@ -1,33 +1,25 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { authSelectors } from '../../redux/auth';
 
-const PublicRoute = ({
-  component: Component,
-  isUserLogin,
-  redirectTo,
-  ...otherProps
-}) => (
-  <Route
-    {...otherProps}
-    render={props =>
-      isUserLogin && otherProps.restricted ? (
+export default function PublicRoute({ children, redirectTo, ...otherProps }) {
+  const isUserLogin = useSelector(authSelectors.isLogin);
+
+  return (
+    <Route {...otherProps}>
+      {isUserLogin && otherProps.restricted ? (
         <Redirect to={redirectTo} />
       ) : (
-        <Component {...props} />
-      )
-    }
-  />
-);
-
-const mapStateToProps = state => ({
-  isUserLogin: authSelectors.isLogin(state),
-});
-
-export default connect(mapStateToProps)(PublicRoute);
+        children
+      )}
+    </Route>
+  );
+}
 
 PublicRoute.propTypes = {
-  isUserLogin: PropTypes.bool.isRequired,
+  children: PropTypes.node,
+  redirectTo: PropTypes.node,
+  otherProps: PropTypes.node,
 };

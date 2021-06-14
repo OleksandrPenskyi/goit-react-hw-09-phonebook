@@ -48,7 +48,7 @@ export default function LoginPage() {
       <form
         onSubmit={onSubmitLoginForm}
         className="loginRegisterForm"
-        // ! autoComplete="off"
+        autoComplete="off"
       >
         <TextField
           onChange={onChangeInput}
@@ -64,8 +64,7 @@ export default function LoginPage() {
           label="Password"
           margin="normal"
           name="password"
-          // ! type="password"
-          type="text"
+          type="password"
           value={password}
         />
         <Button type="submit" variant="contained">
