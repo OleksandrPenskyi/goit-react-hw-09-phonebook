@@ -1,8 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { createAction } from '@reduxjs/toolkit';
 
-const authRegistrationRequest = createAction('auth/RegistrationRequest');
 const authRegistrationSuccess = createAction('auth/RegistrationSuccess');
+const authRegistrationRequest = createAction('auth/RegistrationRequest');
 const authRegistrationError = createAction('auth/RegistrationError');
 
 const authLoginRequest = createAction('auth/LoginRequest');

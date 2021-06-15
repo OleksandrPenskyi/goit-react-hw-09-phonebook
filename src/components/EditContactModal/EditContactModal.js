@@ -7,10 +7,6 @@ import { Box, TextField, Button } from '@material-ui/core';
 
 const modalRoot = document.querySelector('#modal-root');
 
-// const mapDispatchToProps = {
-//   editContact: contactsOperations.patchContact,
-// };
-
 export default function EditContactModal({
   name: contactName,
   number: contactNumber,

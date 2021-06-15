@@ -5,10 +5,6 @@ import { authSelectors } from '../../../redux/auth';
 import { Box, Typography, Button } from '@material-ui/core';
 import { UserMenuStyles } from './styles';
 
-// const mapDispatchToProps = {
-//   onLogout: authOperations.logout,
-// };
-
 export default function UserMenu() {
   const classes = UserMenuStyles();
 
