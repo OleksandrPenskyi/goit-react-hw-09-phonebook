@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -17,20 +17,17 @@ export default function EditContactModal({
   const [number, setNumber] = useState(contactNumber);
   const [id, setId] = useState(contactId);
   const dispatch = useDispatch();
+  const nameRef = useRef();
 
   useEffect(() => {
-    const handleCloseModal = event => {
-      if (event.code === 'Escape') {
-        onToggleModal();
-      }
-    };
+    nameRef.current.focus();
+  }, []);
 
-    window.addEventListener('keydown', handleCloseModal);
-
-    return () => {
-      window.removeEventListener('keydown', handleCloseModal);
-    };
-  }, [onToggleModal]);
+  const handleCloseModal = ({ code }) => {
+    if (code === 'Escape') {
+      onToggleModal();
+    }
+  };
 
   const handleChangeInput = event => {
     const { name, value } = event.target;
@@ -78,7 +75,12 @@ export default function EditContactModal({
   };
 
   return createPortal(
-    <Box onClick={handleOverlayClick} className="overlay">
+    <Box
+      onClick={handleOverlayClick}
+      onKeyDown={handleCloseModal}
+      tabIndex="0"
+      className="overlay"
+    >
       <Box className="modal">
         <Box component="h3" textAlign="center">
           Edit contact form
@@ -95,6 +97,7 @@ export default function EditContactModal({
                 type="text"
                 value={name}
                 className="editContactBtn"
+                inputRef={nameRef}
               />
             </Box>
             <Box className="editContactInput">
